@@ -64,25 +64,37 @@ $(document).ready(function(){
 		return result;
 		merge(result);
 	}
-l = [2,0,2,2];
 
 	// merge function adds adjacent tiles with the same number to form a new tile with their sum.
 	function merge(line) {
 		var merged_result = [];
+		var merged = false;
 
 		for (var i = 0; i < line.length; i++) {
-			for (var j = i+1; j < line.length; j++) {
-				
-				if (line[i] === line[j]){
-					merged_result.push(line[i] + line[j]);
 
-				} else {
+				if (merged !== true) {
 					
-
+					if (line[i] !== line[i+1]){
+						merged_result.push(line[i]);
+					} else if (line[i] === line[i+1]) {
+						merged_result.push(line[i] + line[i+1]);
+						merged = true;
+					} 
+				} else {
+					merged = false;
 				}
-			};
 		};
+
+
+
+		while(merged_result.length < 4) {
+			merged_result.push(0);
+		}
+
+		return merged_result;
 	};
+
+	l = [2,4,4,0]
 	
 
 
