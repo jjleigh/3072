@@ -9,13 +9,13 @@ $(document).ready(function(){
 
 		$(window).on('keyup', function(event){
 			if (event.keyCode === 37) {
-				slide('left');
+				slide(grid,'left');
 			} else if (event.keyCode === 38) {				
-				slide('up');
+				slide(grid,'up');
 			} else if (event.keyCode === 39) {
-				slide('right');
+				slide(grid,'right');
 			} else if (event.keyCode === 40){	
-				slide('down');
+				slide(grid,'down');
 			}
 
 		});
@@ -33,39 +33,68 @@ $(document).ready(function(){
 	// Adds a new tile to a random empty cell on the grid
 	function newTile(grid) {
 		var count = 0;
+		var occupied = [];
 		
 		while (count <= 16) {
 			if (grid[Math.floor(Math.random() * 4)][Math.floor(Math.random() * 4)] == 0) {
 				grid[Math.floor(Math.random() * 4)][Math.floor(Math.random() * 4)] = 2;
 			} else {
+				occupied.push()
 				newTile(grid);
 				count ++;
 			}
 		}
 
 		if (count > 16) {
-			
+
 		}
-		return grid;
+		return grid; // this method needs improvement. figure out how to remember which tiles are occupied
 	}
 
 	// this function takes a row and slides all its values together and 
 	// adds zeros if the new array length is less than 4
 
-	function slide(line){
+	function slide(line, direction){
 		var result = [];
 
-		for (var i = 0; i < line.length; i++) {
-			if (line[i] > 0) {
-				result.push(line[i]);	
-			}			
-		};
 
-		while (result.length < 4) {
-			result.push(0);
+		// if up arrow is pressed 
+		// if down arrow is pressed 
+		
+
+
+		// if left arrow is pressed 
+		if (direction === "left") {
+
+			
+			for (var i = 0; i < line.length; i++) {
+				if (line[i] > 0) {
+					result.push(line[i]);	
+				}			
+			};
+
+			while (result.length < 4) {
+				result.push(0);
+			}
+			return result;
+			merge(result);
+
+
+		} else if (direction === "right") {  // if right arrow is pressed 
+
+			for (var i = 0; i < line.length; i++) {
+				if (line[i] > 0) {
+					result.push(line[i]);	
+				}			
+			};
+
+			while (result.length < 4) {
+				result.unshift(0);
+			}
+			return result;
+			merge(result);
+
 		}
-		return result;
-		merge(result);
 	}
 
 	// merge function adds adjacent tiles with the same number to form a new tile with their sum.
@@ -82,6 +111,10 @@ $(document).ready(function(){
 					} else if (line[i] === line[i+1]) {
 						merged_result.push(line[i] + line[i+1]);
 						merged = true;
+
+						if (line[i] + line[i+1] === 59049) {
+							win();
+						}
 					} 
 				} else {
 					merged = false;
@@ -98,25 +131,20 @@ $(document).ready(function(){
 
 	// win function checks for a winner after a certain amount of turns
 	function win() {
+		 var answer = confirm("congrats! you won. Would you like to play again?");
 
-		for (var i = 0; i <= grid.length; i++) {
-			for (var j = 0; j <= grid.length; j++) {
-				
-				if (grid.)
-			};
-		};
+		if (answer === true) {location.reload()};
 
+		// $('table').css({});
 	};
 
 
+	// lose function restarts game if confirmed yes
 
+	function lose() {
+		var answer = confirm("Awe thats sucks, would you like to play again?")
 
-	// play again function restarts game if confirmed yes
-
-	function playAgain() {
-		var answer = confirm("would you like to play again?")
-
-		if (answer) {
+		if (answer === true) {
 			location.reload();
 		}
 
