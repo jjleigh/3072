@@ -156,7 +156,7 @@ $(document).ready(function(){
 		}
 
 	// merge function adds adjacent tiles with the same number to form a new tile with their sum.
-	function merge(grid) {
+	function merge(grid, direction) {
 		var merged_result = [[],[],[],[]];
 		var merged = false;
 
@@ -180,8 +180,14 @@ $(document).ready(function(){
 					merged = false;
 				}
 			}
-			while(merged_result[i].length < 4) {
-				merged_result[i].unshift(0);
+			if (direction === "right") {
+				while(merged_result[i].length < 4) {
+					merged_result[i].unshift(0);
+				}
+			} else if (direction === "left") {
+				while(merged_result[i].length < 4) {
+					merged_result[i].push(0);
+				}
 			}
 		}
 
