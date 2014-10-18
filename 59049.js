@@ -30,14 +30,27 @@ $(document).ready(function(){
 	};
 
 	move();
+
+	
+
+
+
 	// Adds a new tile to a random empty cell on the grid
 	function newTile(grid) {
 		var count = 0;
 		var occupied = [];
+
+
+
+		// returns a random number
+		var rand = function (){
+				return Math.floor(Math.random() * 4)
+
+		}		
 		
 		while (count <= 16) {
-			if (grid[Math.floor(Math.random() * 4)][Math.floor(Math.random() * 4)] == 0) {
-				grid[Math.floor(Math.random() * 4)][Math.floor(Math.random() * 4)] = 2;
+			if (grid[rand()][rand()] == 0) {
+				grid[rand()][rand()] = 2;
 			} else {
 				occupied.push()
 				newTile(grid);
@@ -51,22 +64,17 @@ $(document).ready(function(){
 		return grid; // this method needs improvement. figure out how to remember which tiles are occupied
 	}
 
-	// this function takes a row and slides all its values together and 
+	// this function takes iterates of the grid and for each row it slides all its values together and 
 	// adds zeros if the new array length is less than 4
 
 	function slide(line, direction){
 		var result = [];
 
 
-		// if up arrow is pressed 
-		// if down arrow is pressed 
-		
-
-
 		// if left arrow is pressed 
 		if (direction === "left") {
 
-			
+
 			for (var i = 0; i < line.length; i++) {
 				if (line[i] > 0) {
 					result.push(line[i]);	
@@ -94,7 +102,49 @@ $(document).ready(function(){
 			return result;
 			merge(result);
 
+		} else if (direction === "up") {  // if up arrow is pressed
+			var init = [[],[],[],[]];
+				for (var i = 0; i < grid.length; i++) {
+					for (var j = 0; j < grid.length; j++) {
+
+						if (i === 0) {
+							init[i].push(grid[i][j])
+						} else {
+							if (init[i-1][j] !== 0) {
+
+								init[i].push(grid[i][j])
+
+							} else if (init[i-1][j] === 0) {
+
+								init[i-1][j] = grid[i][j]
+								init[i][j] = 0
+							} 
+						}
+					};
+					
+				};
+
+				return init;		
+			};
+
+
+		} else if (direction === "down"){  // if down arrow is pressed 
+			var init = [[],[],[],[]];
+
+			for (var i = grid.length; i >= 0; i--) {
+				for (var j = grid.length; j >= 0; j--) {
+				
+			};
+
+
 		}
+
+
+
+
+
+
+
 	}
 
 	// merge function adds adjacent tiles with the same number to form a new tile with their sum.
@@ -129,11 +179,11 @@ $(document).ready(function(){
 	};
 
 
-	// win function checks for a winner after a certain amount of turns
+	// win function alerts that player has one and asks if they would like to play again
 	function win() {
 		 var answer = confirm("congrats! you won. Would you like to play again?");
 
-		if (answer === true) {location.reload()};
+		if (answer === true) {location.reload();}
 
 		// $('table').css({});
 	};
@@ -144,9 +194,7 @@ $(document).ready(function(){
 	function lose() {
 		var answer = confirm("Awe thats sucks, would you like to play again?")
 
-		if (answer === true) {
-			location.reload();
-		}
+		if (answer === true) {location.reload();}
 
 	};
 
