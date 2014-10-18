@@ -1,9 +1,6 @@
 $(document).ready(function(){
 		var turn = 0;
-		var grid = [[0,0,0,0],
-								[0,0,0,0],
-								[0,0,0,0],
-								[0,0,0,0]];
+		var grid = [[0,0,0,0], [0,0,0,0], [0,0,0,0],[0,0,0,0]];
 
 
 
@@ -12,13 +9,13 @@ $(document).ready(function(){
 
 		$(window).on('keyup', function(event){
 			if (event.keyCode === 37) {
-				alert("you pressed the left button");
-			} else if (event.keyCode === 38) {
-				alert("you pressed the up button");
+				slide('left');
+			} else if (event.keyCode === 38) {				
+				slide('up');
 			} else if (event.keyCode === 39) {
-				alert("you pressed the right button");
-			} else if (event.keyCode === 40){
-				alert("you pressed the down button");
+				slide('right');
+			} else if (event.keyCode === 40){	
+				slide('down');
 			}
 
 		});
@@ -35,19 +32,17 @@ $(document).ready(function(){
 	move();
 	// Adds a new tile to a random empty cell on the grid
 	function newTile(grid) {
-		var current = Math.floor((Math.random() * 4) + 2);
-
-		if (current !== 2 || current !== 4) {
-
-		}
-
-		$('td').text().css({})
 		
-		Math.floor((Math.random() * 4));
+		if (grid[Math.floor(Math.random() * 4)][Math.floor(Math.random() * 4)] == 0) {
+			grid[Math.floor(Math.random() * 4)][Math.floor(Math.random() * 4)] = 2;
+		} else {
+			newTile(grid);
+		}
+		return grid;
+	}
 
-	};
-
-	// this function takes a row and slides all its values together
+	// this function takes a row and slides all its values together and 
+	// adds zeros if the new array length is less than 4
 
 	function slide(line){
 		var result = [];
@@ -85,20 +80,12 @@ $(document).ready(function(){
 				}
 		};
 
-
-
 		while(merged_result.length < 4) {
 			merged_result.push(0);
 		}
 
 		return merged_result;
 	};
-
-	l = [2,4,4,0]
-	
-
-
-
 
 
 	// win function checks for a winner after a certain amount of turns
