@@ -68,7 +68,7 @@ $(document).ready(function(){
 	// adds zeros if the new array length is less than 4
 
 	function slide(line, direction){
-		var result = [];
+		var init = [[],[],[],[]];
 
 
 		// if left arrow is pressed 
@@ -76,34 +76,36 @@ $(document).ready(function(){
 
 
 			for (var i = 0; i < line.length; i++) {
-				if (line[i] > 0) {
-					result.push(line[i]);	
-				}			
+				for (var j = 0; j < grid.length; j++) {
+
+					if (grid[i][j] > 0) {
+						init[i].push(grid[i][j]);	
+					}			
+				};
 			};
 
-			while (result.length < 4) {
-				result.push(0);
+			while (init.length < 4) {
+				init[i].push(0);
 			}
-			return result;
-			merge(result);
 
 
 		} else if (direction === "right") {  // if right arrow is pressed 
 
-			for (var i = 0; i < line.length; i++) {
-				if (line[i] > 0) {
-					result.push(line[i]);	
-				}			
+			for (var i = 0; i < grid.length; i++) {
+				for (var j = 0; j < grid.length; j++) {
+					
+					if (grid[i][j] > 0) {
+						init[i].push(grid[i][j]);	
+					}			
+				};
 			};
 
-			while (result.length < 4) {
-				result.unshift(0);
+			while (init.length < 4) {
+				init[i].unshift(0);
 			}
-			return result;
-			merge(result);
 
 		} else if (direction === "up") {  // if up arrow is pressed
-			var init = [[],[],[],[]];
+			
 				for (var i = 0; i < grid.length; i++) {
 					for (var j = 0; j < grid.length; j++) {
 
@@ -124,12 +126,11 @@ $(document).ready(function(){
 					
 				};
 
-				return init;		
+				merge(init);		
 			};
 
 
 		} else if (direction === "down"){  // if down arrow is pressed 
-			var init = [[],[],[],[]];
 
 			for (var i = grid.length - 1; i > -1; i--) {
 				for (var j = 0; j < grid.length; j++) {
@@ -148,39 +149,42 @@ $(document).ready(function(){
 						} 
 					}
 				}
+				merge(init);
 			}	
 
-			return init;
 
 		}
 
 	// merge function adds adjacent tiles with the same number to form a new tile with their sum.
-	function merge(line) {
-		var merged_result = [];
+	function merge(grid) {
+		var merged_result = [[],[],[],[]];
 		var merged = false;
 
-		for (var i = 0; i < line.length; i++) {
+		for (var i = 0; i < grid.length; i++) {
+			for (var j = 0; j < grid.length; j++) {
+
 
 				if (merged !== true) {
 					
-					if (line[i] !== line[i+1]){
-						merged_result.push(line[i]);
-					} else if (line[i] === line[i+1]) {
-						merged_result.push(line[i] + line[i+1]);
+					if (grid[i][j] !== grid[i][j+1]){
+						merged_result[i].push(grid[i][j]);
+					} else if (grid[i][j] === grid[i][j+1]) {
+						merged_result[i].push(grid[i][j] + grid[i][j+1]);
 						merged = true;
 
-						if (line[i] + line[i+1] === 59049) {
+						if (grid[i][j] + grid[i][j+1] === 59049) {
 							win();
 						}
 					} 
 				} else {
 					merged = false;
 				}
-		};
-
-		while(merged_result.length < 4) {
-			merged_result.push(0);
+			}
+			while(merged_result[i].length < 4) {
+				merged_result[i].unshift(0);
+			}
 		}
+
 
 		return merged_result;
 	};
