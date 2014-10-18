@@ -131,21 +131,28 @@ $(document).ready(function(){
 		} else if (direction === "down"){  // if down arrow is pressed 
 			var init = [[],[],[],[]];
 
-			for (var i = grid.length; i >= 0; i--) {
-				for (var j = grid.length; j >= 0; j--) {
-				
-			};
+			for (var i = grid.length - 1; i > -1; i--) {
+				for (var j = 0; j < grid.length; j++) {
 
+					if (i === 3) {
+							init[i].push(grid[i][j]);
+					} else {
+						if (init[i+1][j] !== 0) {
+
+							init[i].push(grid[i][j]);
+
+						} else if (init[i+1][j] === 0) {
+
+							init[i+1][j] = grid[i][j];
+							init[i][j] = 0;
+						} 
+					}
+				}
+			}	
+
+			return init;
 
 		}
-
-
-
-
-
-
-
-	}
 
 	// merge function adds adjacent tiles with the same number to form a new tile with their sum.
 	function merge(line) {
