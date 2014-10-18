@@ -32,11 +32,19 @@ $(document).ready(function(){
 	move();
 	// Adds a new tile to a random empty cell on the grid
 	function newTile(grid) {
+		var count = 0;
 		
-		if (grid[Math.floor(Math.random() * 4)][Math.floor(Math.random() * 4)] == 0) {
-			grid[Math.floor(Math.random() * 4)][Math.floor(Math.random() * 4)] = 2;
-		} else {
-			newTile(grid);
+		while (count <= 16) {
+			if (grid[Math.floor(Math.random() * 4)][Math.floor(Math.random() * 4)] == 0) {
+				grid[Math.floor(Math.random() * 4)][Math.floor(Math.random() * 4)] = 2;
+			} else {
+				newTile(grid);
+				count ++;
+			}
+		}
+
+		if (count > 16) {
+			
 		}
 		return grid;
 	}
@@ -90,6 +98,13 @@ $(document).ready(function(){
 
 	// win function checks for a winner after a certain amount of turns
 	function win() {
+
+		for (var i = 0; i <= grid.length; i++) {
+			for (var j = 0; j <= grid.length; j++) {
+				
+				if (grid.)
+			};
+		};
 
 	};
 
