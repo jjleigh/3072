@@ -31,39 +31,6 @@ $(document).ready(function(){
 
 	move();
 
-	
-
-
-
-	// Adds a new tile to a random empty cell on the grid
-	function newTile(grid) {
-		var count = 0;
-		var occupied = [];
-
-
-
-		// returns a random number
-		var rand = function (){
-				return Math.floor(Math.random() * 4)
-
-		}		
-		
-		while (count <= 16) {
-			if (grid[rand()][rand()] == 0) {
-				grid[rand()][rand()] = 2;
-			} else {
-				occupied.push()
-				newTile(grid);
-				count ++;
-			}
-		}
-
-		if (count > 16) {
-
-		}
-		return grid; // this method needs improvement. figure out how to remember which tiles are occupied
-	}
-
 	// this function takes iterates of the grid and for each row it slides all its values together and 
 	// adds zeros if the new array length is less than 4
 
@@ -208,9 +175,9 @@ $(document).ready(function(){
 								merged_result[i][j] = 0; //and set the current element in the new array to be 0
 
 
-								// if (grid[i][j] + grid[i][j+1] === 59049) {
-								// 	win();
-								// }
+								if (grid[i][j] + grid[i][j+1] === 59049) {
+									win();
+								}
 
 							}  else if (grid[i][j] !== merged_result[i-1][j] ) { // if the current element in grid is not 
 																																	//the same as the previous one in the column
@@ -225,7 +192,7 @@ $(document).ready(function(){
 
 			} else if (direction === "down") {
 
-				merged_result[grid.length-1] = grid.slice(-1)[0]; // this sets the last element in the merged results array to
+				merged_result[merged_result.length-1] = grid.slice(-1)[0]; // this sets the last element in the merged results array to
 																													// be the last element in the grid array
 
 				for (var i = grid.length -2; i > grid.length -1; i--) {
@@ -236,6 +203,12 @@ $(document).ready(function(){
 							merged_result[i+1][j] += grid[i][j];
 							merged_result[i][j] = 0;
 
+
+							if (grid[i][j] + grid[i][j+1] === 59049) {
+									win();
+								}
+
+
 						} else if (grid[i][j] !== merged_result[i+1][j]) {
 							merged_result[i][j] = grid[i][j];
 						}
@@ -243,6 +216,37 @@ $(document).ready(function(){
 				}
 				return merged_result;
 			}
+
+
+		// Adds a new tile to a random empty cell on the grid
+	function newTile(grid) {
+		var count = 0;
+		var occupied = [];
+
+
+
+		// returns a random number
+		var rand = function (){
+				return Math.floor(Math.random() * 4)
+
+		}		
+		
+		while (count <= 16) {
+			if (grid[rand()][rand()] == 0) {
+				grid[rand()][rand()] = 2;
+			} else {
+				occupied.push()
+				newTile(grid);
+				count ++;
+			}
+		}
+
+		if (count > 16) {
+
+		}
+		return grid; // this method needs improvement. figure out how to remember which tiles are occupied
+	}
+
 
 
 
