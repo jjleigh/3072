@@ -219,31 +219,61 @@ $(document).ready(function(){
 
 
 		// Adds a new tile to a random empty cell on the grid
-	function newTile(grid) {
+	function newTile(grid, direction) {
 		var count = 0;
-		var occupied = [];
+		var rand = function (start, end) {
+				return Math.floor(Math.random() * ((end-start)+1) + start);
+			}
 
+		if (direction === "left") {
+			if (&& grid[rand(2))][rand(4)] === 0) {
 
+			} else {
 
-		// returns a random number
-		var rand = function (){
+			}
+
+		} else if (direction === "right") {
+
+			if (&& grid[rand(2))][rand(4)] === 0) {
+
+			} else {
+				
+			}
+
+		} else if (direction === "up") {
+
+			if (&& grid[rand(2))][rand(4)] === 0) {
+
+			} else {
+				
+			}
+
+		} else if (direction === "down") {
+
+			if (&& grid[rand(2))][rand(4)] === 0) {
+
+			} else {
+				
+			}
+
+		}
+	}
+		function yo(grid) { 
+
+			var rand = function () {
 				return Math.floor(Math.random() * 4)
-
-		}		
+			}
 		
-		while (count <= 16) {
+
 			if (grid[rand()][rand()] == 0) {
 				grid[rand()][rand()] = 2;
 			} else {
-				occupied.push()
-				newTile(grid);
-				count ++;
+				yo(grid);
 			}
+			return grid;
 		}
-
-		if (count > 16) {
-
-		}
+		var g = [[2,2,4,4],[2,8,4,4],[4,2,4,4],[4,2,2,4]];
+	
 		return grid; // this method needs improvement. figure out how to remember which tiles are occupied
 	}
 
