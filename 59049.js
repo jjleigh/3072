@@ -34,7 +34,7 @@ $(document).ready(function(){
 	// this function takes iterates of the grid and for each row it slides all its values together and 
 	// adds zeros if the new array length is less than 4
 
-	function slide(line, direction){
+	function slide(grid, direction){
 		var init = [[],[],[],[]];
 
 
@@ -226,7 +226,7 @@ $(document).ready(function(){
 			}
 
 		if (direction === "left") {
-			if (&& grid[rand(2))][rand(4)] === 0) {
+			if (grid[rand(0,3))][rand(0,1)] === 0) {
 
 			} else {
 
@@ -234,7 +234,7 @@ $(document).ready(function(){
 
 		} else if (direction === "right") {
 
-			if (&& grid[rand(2))][rand(4)] === 0) {
+			if (grid[rand(0,3))][rand(2,3)] === 0) {
 
 			} else {
 				
@@ -242,7 +242,7 @@ $(document).ready(function(){
 
 		} else if (direction === "up") {
 
-			if (&& grid[rand(2))][rand(4)] === 0) {
+			if (grid[rand(2,3))][rand(0,3)] === 0) {
 
 			} else {
 				
@@ -250,7 +250,7 @@ $(document).ready(function(){
 
 		} else if (direction === "down") {
 
-			if (&& grid[rand(2))][rand(4)] === 0) {
+			if (grid[rand(0,1))][rand(0,3)] === 0) {
 
 			} else {
 				
@@ -258,21 +258,6 @@ $(document).ready(function(){
 
 		}
 	}
-		function yo(grid) { 
-
-			var rand = function () {
-				return Math.floor(Math.random() * 4)
-			}
-		
-
-			if (grid[rand()][rand()] == 0) {
-				grid[rand()][rand()] = 2;
-			} else {
-				yo(grid);
-			}
-			return grid;
-		}
-		var g = [[2,2,4,4],[2,8,4,4],[4,2,4,4],[4,2,2,4]];
 	
 		return grid; // this method needs improvement. figure out how to remember which tiles are occupied
 	}
