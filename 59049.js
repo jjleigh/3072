@@ -218,49 +218,56 @@ $(document).ready(function(){
 			}
 
 
-		// Adds a new tile to a random empty cell on the grid
+	// Adds a new tile to a random empty cell on the grid
 	function newTile(grid, direction) {
 		var newTileGenerated = false;
+		var x;
+		var y;
+		var tile;
 
+		// returns a random number withing a givin range
 		var rand = function (start, end) {
 			return Math.floor(Math.random() * ((end-start)+1) + start);
-			}
-
-		var tileCheck = function(tile) {
-			if (tile === 0) {
+		};
+		// checks to see if the randomly selected cell has a value of 0
+		var tileCheck = function(value, row, column) {
+			if (value === 0) {
 				newTileGenerated = true;
-				tile = 2;
+				grid[row][column] = 2;
 			}
-		}
+		};
+		// until a new tile with a zero value has been selected keep genereating new tiles
+		while (newTileGenerated === false) {
 
-		while (newTileGenerated = false) {
 
 			if (direction === "left") {
-				var tile = grid[rand(0,3))][rand(0,1)];
-				tileCheck(tile);
+				x = rand(0,3)
+				y = rand(0,1)
+				tileValue = grid[x][y];
+				tileCheck(tileValue, x, y);
 
 			} else if (direction === "right") {
-
-				var tile = grid[rand(0,3))][rand(2,3)];
-				tileCheck(tile);
+				x = rand(0,3)
+				y = rand(2,3)
+				tileValue = grid[x][y];
+				tileCheck(tileValue, x, y);
 
 			} else if (direction === "up") {
-				var tile = grid[rand(2,3))][rand(0,3)];
-				tileCheck(tile);
+				x = rand(2,3)
+				y = rand(0,3)
+				tileValue = grid[x][y];
+				tileCheck(tileValue, x, y);
 
 			} else if (direction === "down") {
-				var tile = grid[rand(0,1))][rand(0,3)];
-				tileCheck(tile);
+				x = rand(0,1)
+				y = rand(0,3)
+				tileValue = grid[x][y];
+				tileCheck(tileValue, x , y);
 
 			}
 		}
-	
-	
-		return grid; // this method needs improvement. figure out how to remember which tiles are occupied
+		return grid;
 	}
-
-
-
 
 	// win function alerts that player has one and asks if they would like to play again
 	function win() {
