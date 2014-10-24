@@ -220,44 +220,41 @@ $(document).ready(function(){
 
 		// Adds a new tile to a random empty cell on the grid
 	function newTile(grid, direction) {
-		var count = 0;
+		var newTileGenerated = false;
+
 		var rand = function (start, end) {
-				return Math.floor(Math.random() * ((end-start)+1) + start);
+			return Math.floor(Math.random() * ((end-start)+1) + start);
 			}
 
-		if (direction === "left") {
-			if (grid[rand(0,3))][rand(0,1)] === 0) {
-
-			} else {
-
+		var tileCheck = function(tile) {
+			if (tile === 0) {
+				newTileGenerated = true;
+				tile = 2;
 			}
-
-		} else if (direction === "right") {
-
-			if (grid[rand(0,3))][rand(2,3)] === 0) {
-
-			} else {
-				
-			}
-
-		} else if (direction === "up") {
-
-			if (grid[rand(2,3))][rand(0,3)] === 0) {
-
-			} else {
-				
-			}
-
-		} else if (direction === "down") {
-
-			if (grid[rand(0,1))][rand(0,3)] === 0) {
-
-			} else {
-				
-			}
-
 		}
-	}
+
+		while (newTileGenerated = false) {
+
+			if (direction === "left") {
+				var tile = grid[rand(0,3))][rand(0,1)];
+				tileCheck(tile);
+
+			} else if (direction === "right") {
+
+				var tile = grid[rand(0,3))][rand(2,3)];
+				tileCheck(tile);
+
+			} else if (direction === "up") {
+				var tile = grid[rand(2,3))][rand(0,3)];
+				tileCheck(tile);
+
+			} else if (direction === "down") {
+				var tile = grid[rand(0,1))][rand(0,3)];
+				tileCheck(tile);
+
+			}
+		}
+	
 	
 		return grid; // this method needs improvement. figure out how to remember which tiles are occupied
 	}
