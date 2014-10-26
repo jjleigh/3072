@@ -3,7 +3,26 @@ $(document).ready(function(){
 		var grid = [[0,0,0,0], [0,0,0,0], [0,0,0,0],[0,0,0,0]];
 
 
+	function start_grid(grid) {
+		var count = 0;
+		var rand = function () {
+			return Math.floor(Math.random() * 4);
+		};
 
+		
+		while (count < 2) {
+			var x = rand();
+			var y = rand();
+			if (grid[x][y] === 0) {
+	 			grid[x][y] = 2;
+	 			count++;
+ 			}
+		}
+		return grid;
+	}
+		move();
+
+	start_grid();
 	// the move function moves tiles in a particular direction based on which arrow is pressed
 	function move() {
 
@@ -21,7 +40,6 @@ $(document).ready(function(){
 		});
 
 	};
-	move();
 	// this function takes iterates of the grid and for each row it slides all its values together and 
 	// adds zeros if the new array length is less than 4
 
