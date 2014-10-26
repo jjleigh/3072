@@ -11,18 +11,20 @@ $(document).ready(function(){
 
 		
 		while (count < 2) {
-			var x = rand();
-			var y = rand();
+				var x = rand();
+				var y = rand();
+				var combo = x + '' + y;
 			if (grid[x][y] === 0) {
-	 			grid[x][y] = 2;
+	 				grid[x][y] = 3;
+	 				$('td[id=' + combo + ']').text(3);
 	 			count++;
  			}
 		}
 		return grid;
-	}
 		move();
+	}
 
-	start_grid();
+	start_grid(grid);
 	// the move function moves tiles in a particular direction based on which arrow is pressed
 	function move() {
 
