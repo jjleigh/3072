@@ -19,26 +19,15 @@ $(document).ready(function(){
 			}
 
 		});
-	merge();
-	newTile();
-
-		turn++;
-		if (turn >= 10) {
-			win();
-		}
 
 	};
-
 	move();
-
 	// this function takes iterates of the grid and for each row it slides all its values together and 
 	// adds zeros if the new array length is less than 4
 
 	function slide(grid, direction){
 		var init = [[],[],[],[]];
-
-
-		// if left arrow is pressed 
+ 
 		if (direction === "left") {
 
 
@@ -54,7 +43,7 @@ $(document).ready(function(){
 			while (init.length < 4) {
 				init[i].push(0);
 			}
-
+			merge(init, direction);
 
 		} else if (direction === "right") {  // if right arrow is pressed 
 
@@ -70,6 +59,8 @@ $(document).ready(function(){
 			while (init.length < 4) {
 				init[i].unshift(0);
 			}
+
+			merge(init, direction);
 
 		} else if (direction === "up") {  // if up arrow is pressed
 			
@@ -92,8 +83,8 @@ $(document).ready(function(){
 					};
 					
 				};
-
-				merge(init);		
+				merge(init, direction);	
+					
 			};
 
 
@@ -116,7 +107,7 @@ $(document).ready(function(){
 						} 
 					}
 				}
-				merge(init);
+				merge(init, direction);
 			}	
 
 
@@ -219,7 +210,7 @@ $(document).ready(function(){
 
 
 	// Adds a new tile to a random empty cell on the grid
-	function newTile(grid, direction) {
+	function newTile(merged_grid, direction) {
 		var newTileGenerated = false;
 		var x;
 		var y;
@@ -233,7 +224,7 @@ $(document).ready(function(){
 		var tileCheck = function(value, row, column) {
 			if (value === 0) {
 				newTileGenerated = true;
-				grid[row][column] = 2;
+				merged_grid[row][column] = 2;
 			}
 		};
 		// until a new tile with a zero value has been selected keep genereating new tiles
@@ -243,30 +234,30 @@ $(document).ready(function(){
 			if (direction === "left") {
 				x = rand(0,3)
 				y = rand(0,1)
-				tileValue = grid[x][y];
+				tileValue = merged_grid[x][y];
 				tileCheck(tileValue, x, y);
 
 			} else if (direction === "right") {
 				x = rand(0,3)
 				y = rand(2,3)
-				tileValue = grid[x][y];
+				tileValue = merged_grid[x][y];
 				tileCheck(tileValue, x, y);
 
 			} else if (direction === "up") {
 				x = rand(2,3)
 				y = rand(0,3)
-				tileValue = grid[x][y];
+				tileValue = merged_grid[x][y];
 				tileCheck(tileValue, x, y);
 
 			} else if (direction === "down") {
 				x = rand(0,1)
 				y = rand(0,3)
-				tileValue = grid[x][y];
+				tileValue = merged_grid[x][y];
 				tileCheck(tileValue, x , y);
 
 			}
 		}
-		return grid;
+		return merged_grid;
 	}
 
 	// win function alerts that player has one and asks if they would like to play again
@@ -287,7 +278,5 @@ $(document).ready(function(){
 		if (answer === true) {location.reload();}
 
 	};
-
-
 
 });
