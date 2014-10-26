@@ -1,6 +1,7 @@
 $(document).ready(function(){
 		var turn = 0;
 		var grid = [[0,0,0,0], [0,0,0,0], [0,0,0,0],[0,0,0,0]];
+		var score = 0;
 
 		function start_grid(grid) {
 
@@ -23,8 +24,8 @@ $(document).ready(function(){
 	 			}
 			}
 			return grid;
-			move();
 		});
+			move();
 	}
 
 	start_grid(grid);
@@ -34,7 +35,8 @@ $(document).ready(function(){
 		$(window).on('keyup', function(event){
 			if (event.keyCode === 37) {
 				slide(grid,'left');
-			} else if (event.keyCode === 38) {				
+			} else if (event.keyCode === 38) {
+				alert("you pressed the up key");				
 				slide(grid,'up');
 			} else if (event.keyCode === 39) {
 				slide(grid,'right');
@@ -54,18 +56,19 @@ $(document).ready(function(){
 		if (direction === "left") {
 
 
-			for (var i = 0; i < line.length; i++) {
+			for (var i = 0; i < grid.length; i++) {
 				for (var j = 0; j < grid.length; j++) {
 
 					if (grid[i][j] > 0) {
-						init[i].push(grid[i][j]);	
+						init[i].push(grid[i][j]);
 					}			
 				};
+				while (init[i].length < 4) {
+					init[i].push(0);
+				}
 			};
 
-			while (init.length < 4) {
-				init[i].push(0);
-			}
+			
 			merge(init, direction);
 
 		} else if (direction === "right") {  // if right arrow is pressed 
@@ -132,12 +135,22 @@ $(document).ready(function(){
 
 
 		}
+
 	}
 
 	// merge function adds adjacent tiles with the same number to form a new tile with their sum.
 	function merge(grid, direction) {
 		var merged_result = [[],[],[],[]];
 		var merged = false;
+
+		var set_merged = function(results) {
+				for (var i = 0; i < results.length; i++) {
+				 	for (var j = 0; j < results.length; j++) {
+						var item = results[i][j];
+						$('td[id=' + i + "" + j + ']').text(item).css({'background-color':"#F2E8DC", "color":'#8C8279'});
+				 	};
+				 }; 
+			}
 
 		if (direction === "right" || direction === "left") {
 
@@ -173,6 +186,9 @@ $(document).ready(function(){
 					}
 				}
 			}
+
+			set_merged(merged_result);
+
 		} else if (direction === "up") {
 
 				merged_result[0] = grid[0]; // set the first array to the be the same as the first arry in grid
@@ -199,7 +215,7 @@ $(document).ready(function(){
 
 					}
 				}
-
+				set_merged(merged_result);
 				return merged_result;
 
 			} else if (direction === "down") {
@@ -226,8 +242,11 @@ $(document).ready(function(){
 						}
 					}
 				}
+				set_merged(merged_result);
 				return merged_result;
 			}
+				
+			
 		}
 
 
@@ -280,6 +299,7 @@ $(document).ready(function(){
 			}
 		}
 		return merged_grid;
+		$(td)
 	}
 
 	// win function alerts that player has one and asks if they would like to play again
@@ -296,7 +316,6 @@ $(document).ready(function(){
 
 	function lose() {
 		var answer = confirm("Awe thats sucks, would you like to play again?")
-
 		if (answer === true) {location.reload();}
 
 	};
