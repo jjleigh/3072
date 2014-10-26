@@ -2,26 +2,29 @@ $(document).ready(function(){
 		var turn = 0;
 		var grid = [[0,0,0,0], [0,0,0,0], [0,0,0,0],[0,0,0,0]];
 
+		function start_grid(grid) {
 
-	function start_grid(grid) {
-		var count = 0;
-		var rand = function () {
-			return Math.floor(Math.random() * 4);
-		};
+		$(window).on('load', function(){
 
-		
-		while (count < 2) {
-				var x = rand();
-				var y = rand();
-				var combo = x + '' + y;
-			if (grid[x][y] === 0) {
-	 				grid[x][y] = 3;
-	 				$('td[id=' + combo + ']').text(3);
-	 			count++;
- 			}
-		}
-		return grid;
-		move();
+			var count = 0;
+			var rand = function () {
+				return Math.floor(Math.random() * 4);
+			};
+
+			
+			while (count < 2) {
+					var x = rand();
+					var y = rand();
+					var combo = x + '' + y;
+				if (grid[x][y] === 0) {
+		 			grid[x][y] = 3;
+		 			$('td[id=' + combo + ']').text(3).css({'background-color':"#F2E8DC", "color":'#8C8279'});
+		 			count++;
+	 			}
+			}
+			return grid;
+			move();
+		});
 	}
 
 	start_grid(grid);
@@ -104,9 +107,6 @@ $(document).ready(function(){
 					
 				};
 				merge(init, direction);	
-					
-			};
-
 
 		} else if (direction === "down"){  // if down arrow is pressed 
 
@@ -132,6 +132,7 @@ $(document).ready(function(){
 
 
 		}
+	}
 
 	// merge function adds adjacent tiles with the same number to form a new tile with their sum.
 	function merge(grid, direction) {
@@ -227,6 +228,7 @@ $(document).ready(function(){
 				}
 				return merged_result;
 			}
+		}
 
 
 	// Adds a new tile to a random empty cell on the grid
@@ -299,4 +301,6 @@ $(document).ready(function(){
 
 	};
 
+	
 });
+
