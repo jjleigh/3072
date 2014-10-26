@@ -1,5 +1,5 @@
 body {
-	background-color: #FFFBEE;
+	background-color: white;
 }
 
 #header {
@@ -37,6 +37,8 @@ td {
 	height: 138px;
 	text-align: center;
 	border: 1px solid black;
+	font-size: 50px;
+	font-family: Amaranth;
 }
 
 table > td {
