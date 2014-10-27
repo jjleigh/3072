@@ -22,7 +22,6 @@ $(document).ready(function(){
 		 			count++;
 	 			}
 			}
-			return grid;
 		});
 		move();	
 	}
@@ -122,10 +121,9 @@ $(document).ready(function(){
 						} 
 					}
 				}
-			}	
+			}
 		}
-		return init;
-		merge(init, direction);
+		return merge(init, direction);
 	}
 
 	function merge(grid, direction) { 
@@ -167,8 +165,6 @@ $(document).ready(function(){
 				}
 			}
 
-			newTile(merged_result, direction);
-
 		} else if (direction === "up") {
 			merged_result[0] = grid[0]; // set the first array to the be the same as the first arry in grid
 
@@ -195,8 +191,6 @@ $(document).ready(function(){
 
 				}
 			}
-			newTile(merged_result, direction);
-			return merged_result;
 		} else if (direction === "down") {
 
 			merged_result[merged_result.length-1] = grid.slice(-1)[0]; // this sets the last element in the merged results array to
@@ -219,12 +213,11 @@ $(document).ready(function(){
 					}
 				}
 			}
-			newTile(merged_result, direction);
-			return merged_result;
 		}
+		return newTile(merged_result, direction);
 	}
 
-	// Adds a new tile to a random empty cell on the grid
+
 	function newTile(merged_grid, direction) {
 		var newTileGenerated = false;
 		var x;
@@ -248,13 +241,13 @@ $(document).ready(function(){
 
 			if (direction === "left") {
 				x = rand(0,3)
-				y = rand(0,1)
+				y = rand(2,3)
 				tileValue = merged_grid[x][y];
 				tileCheck(tileValue, x, y);
 
 			} else if (direction === "right") {
 				x = rand(0,3)
-				y = rand(2,3)
+				y = rand(0,1)
 				tileValue = merged_grid[x][y];
 				tileCheck(tileValue, x, y);
 
@@ -272,7 +265,8 @@ $(document).ready(function(){
 
 			}
 		}
-		set_merged(merged_grid);
+		return merged_grid;
+		// set_merged(merged_grid);
 	}
 
 	function set_merged(results) {
