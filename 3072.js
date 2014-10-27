@@ -1,9 +1,9 @@
 $(document).ready(function(){
-		var turn = 0;
-		var grid = [[0,0,0,0], [0,0,0,0], [0,0,0,0],[0,0,0,0]];
-		var score = 0;
+	var turn = 0;
+	var grid = [[0,0,0,0], [0,0,0,0], [0,0,0,0],[0,0,0,0]];
+	var score = 0;
 
-		function start_grid(grid) {
+	function start_grid(grid) {
 
 		$(window).on('load', function(){
 
@@ -11,8 +11,7 @@ $(document).ready(function(){
 			var rand = function () {
 				return Math.floor(Math.random() * 4);
 			};
-
-			
+	
 			while (count < 2) {
 					var x = rand();
 					var y = rand();
@@ -25,10 +24,10 @@ $(document).ready(function(){
 			}
 			return grid;
 		});
-			move();
+		move();	
 	}
-
 	start_grid(grid);
+
 	// the move function moves tiles in a particular direction based on which arrow is pressed
 	function move() {
 
@@ -46,7 +45,8 @@ $(document).ready(function(){
 
 		});
 
-	};
+	}
+
 	// this function takes iterates of the grid and for each row it slides all its values together and 
 	// adds zeros if the new array length is less than 4
 
@@ -55,21 +55,17 @@ $(document).ready(function(){
  
 		if (direction === "left") {
 
-
 			for (var i = 0; i < grid.length; i++) {
 				for (var j = 0; j < grid.length; j++) {
 
 					if (grid[i][j] > 0) {
 						init[i].push(grid[i][j]);
 					}			
-				};
+				}
 				while (init[i].length < 4) {
 					init[i].push(0);
 				}
-			};
-
-			
-			merge(init, direction);
+			}
 
 		} else if (direction === "right") {  // if right arrow is pressed 
 
@@ -79,14 +75,11 @@ $(document).ready(function(){
 					if (grid[i][j] > 0) {
 						init[i].push(grid[i][j]);	
 					}			
-				};
-			};
-
-			while (init.length < 4) {
-				init[i].unshift(0);
+				}
+				while (init.length < 4) {
+					init[i].unshift(0);
+				}
 			}
-
-			merge(init, direction);
 
 		} else if (direction === "up") {  // if up arrow is pressed
 			
@@ -94,22 +87,21 @@ $(document).ready(function(){
 					for (var j = 0; j < grid.length; j++) {
 
 						if (i === 0) {
-							init[i].push(grid[i][j])
+							init[i].push(grid[i][j]);
 						} else {
 							if (init[i-1][j] !== 0) {
 
-								init[i].push(grid[i][j])
+								init[i].push(grid[i][j]);
 
 							} else if (init[i-1][j] === 0) {
 
-								init[i-1][j] = grid[i][j]
-								init[i][j] = 0
+								init[i-1][j] = grid[i][j];
+								init[i][j] = 0;
 							} 
 						}
-					};
+					}
 					
-				};
-				merge(init, direction);	
+				}
 
 		} else if (direction === "down"){  // if down arrow is pressed 
 
@@ -130,27 +122,15 @@ $(document).ready(function(){
 						} 
 					}
 				}
-				merge(init, direction);
 			}	
-
-
 		}
-
+		return init;
+		merge(init, direction);
 	}
 
-	// merge function adds adjacent tiles with the same number to form a new tile with their sum.
-	function merge(grid, direction) {
+	function merge(grid, direction) { 
 		var merged_result = [[],[],[],[]];
 		var merged = false;
-
-		var set_merged = function(results) {
-				for (var i = 0; i < results.length; i++) {
-				 	for (var j = 0; j < results.length; j++) {
-						var item = results[i][j];
-						$('td[id=' + i + "" + j + ']').text(item).css({'background-color':"#F2E8DC", "color":'#8C8279'});
-				 	};
-				 }; 
-			}
 
 		if (direction === "right" || direction === "left") {
 
@@ -187,68 +167,62 @@ $(document).ready(function(){
 				}
 			}
 
-			set_merged(merged_result);
+			newTile(merged_result, direction);
 
 		} else if (direction === "up") {
-
-				merged_result[0] = grid[0]; // set the first array to the be the same as the first arry in grid
-
-				for (var i = 1; i < grid.length; i++) {
-					for (var j = 0; j < grid.length; j++) {
+			merged_result[0] = grid[0]; // set the first array to the be the same as the first arry in grid
 
 
-							if (grid[i][j] === merged_result[i-1][j] || merged_result[i-1][j] === 0) { // if the current element is the same as the one above it in the column
-																																												// OR if the previous element in the column is equal to 0 
-								merged_result[i-1][j] += grid[i][j]; //then merge them
-								merged_result[i][j] = 0; //and set the current element in the new array to be 0
+			for (var i = 1; i < grid.length; i++) {
+				for (var j = 0; j < grid.length; j++) {
 
 
-								if (grid[i][j] + grid[i][j+1] === 59049) {
-									win();
-								}
-
-							}  else if (grid[i][j] !== merged_result[i-1][j] ) { // if the current element in grid is not 
-																																	//the same as the previous one in the column
-
-									merged_result[i][j] = grid[i][j]; // then set that current grid element to be the the current element in the new array
-							}
-
-					}
-				}
-				set_merged(merged_result);
-				return merged_result;
-
-			} else if (direction === "down") {
-
-				merged_result[merged_result.length-1] = grid.slice(-1)[0]; // this sets the last element in the merged results array to
-																													// be the last element in the grid array
-
-				for (var i = grid.length -2; i > grid.length -1; i--) {
-					for (var j = 0; j < grid.length; j++) {
-
-						if (grid[i][j] === merged_result[i+1][j] || merged_result[i+1][j] === 0) {
-
-							merged_result[i+1][j] += grid[i][j];
-							merged_result[i][j] = 0;
+						if (grid[i][j] === merged_result[i-1][j] || merged_result[i-1][j] === 0) { // if the current element is the same as the one above it in the column
+																																											// OR if the previous element in the column is equal to 0 
+							merged_result[i-1][j] += grid[i][j]; //then merge them
+							merged_result[i][j] = 0; //and set the current element in the new array to be 0
 
 
 							if (grid[i][j] + grid[i][j+1] === 59049) {
-									win();
-								}
+								win();
+							}
 
+						}  else if (grid[i][j] !== merged_result[i-1][j] ) { // if the current element in grid is not 
+																																//the same as the previous one in the column
 
-						} else if (grid[i][j] !== merged_result[i+1][j]) {
-							merged_result[i][j] = grid[i][j];
+								merged_result[i][j] = grid[i][j]; // then set that current grid element to be the the current element in the new array
 						}
+
+				}
+			}
+			newTile(merged_result, direction);
+			return merged_result;
+		} else if (direction === "down") {
+
+			merged_result[merged_result.length-1] = grid.slice(-1)[0]; // this sets the last element in the merged results array to
+																													// be the last element in the grid array
+
+			for (var i = grid.length -2; i > grid.length -1; i--) {
+				for (var j = 0; j < grid.length; j++) {
+
+					if (grid[i][j] === merged_result[i+1][j] || merged_result[i+1][j] === 0) {
+
+						merged_result[i+1][j] += grid[i][j];
+						merged_result[i][j] = 0;
+
+						if (grid[i][j] + grid[i][j+1] === 3072) {
+								win();
+							}
+
+					} else if (grid[i][j] !== merged_result[i+1][j]) {
+						merged_result[i][j] = grid[i][j];
 					}
 				}
-				set_merged(merged_result);
-				return merged_result;
 			}
-				
-			
+			newTile(merged_result, direction);
+			return merged_result;
 		}
-
+	}
 
 	// Adds a new tile to a random empty cell on the grid
 	function newTile(merged_grid, direction) {
@@ -298,28 +272,58 @@ $(document).ready(function(){
 
 			}
 		}
-		return merged_grid;
-		$(td)
+		set_merged(merged_grid);
 	}
 
-	// win function alerts that player has one and asks if they would like to play again
+	function set_merged(results) {
+			for (var i = 0; i < results.length; i++) {
+			 	for (var j = 0; j < results.length; j++) {
+					var item = results[i][j];
+					var cell = $('td[id=' + i + "" + j + ']').text(item);
+
+					switch (item) {
+						case 3:
+							cell.addClass('three'); break;
+						case 6:
+							cell.addClass('six'); break;
+						case 12:
+							cell.addClass('twelve'); break;
+						case 24:
+							cell.addClass('twenty-four'); break;
+						case 48:
+							cell.addClass('forty-eight'); break;
+						case 96:
+							cell.addClass('ninety-six'); break;
+						case 192:
+							cell.addClass('one-nine-two'); break;
+						case 384:
+							cell.addClass('three-eight-four'); break;
+						case 768:
+							cell.addClass('seven-six-eight'); break;
+						case 1536:
+							cell.addClass('one-five-three-six'); break;
+						case 3072:
+							cell.addClass('three-zero-seven-two'); break;
+						default:
+							cell.addClass('three'); break;
+					}
+			 	}
+			 }
+			 return results; 
+		}
+
 	function win() {
 		 var answer = confirm("congrats! you won. Would you like to play again?");
 
 		if (answer === true) {location.reload();}
 
 		// $('table').css({});
-	};
-
-
-	// lose function restarts game if confirmed yes
+	}
 
 	function lose() {
-		var answer = confirm("Awe thats sucks, would you like to play again?")
+		var answer = confirm("Awe thats sucks, would you like to play again?");
 		if (answer === true) {location.reload();}
 
-	};
-
-	
+	}
 });
 
