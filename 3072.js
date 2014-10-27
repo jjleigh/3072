@@ -18,7 +18,7 @@ $(document).ready(function(){
 					var combo = x + '' + y;
 				if (grid[x][y] === 0) {
 		 			grid[x][y] = 3;
-		 			$('td[id=' + combo + ']').text(3).css({'background-color':"#F2E8DC", "color":'#8C8279'});
+		 			$('td[id=' + combo + ']').text(3).addClass('three-zero-seven-two');
 		 			count++;
 	 			}
 			}
@@ -142,6 +142,8 @@ $(document).ready(function(){
 							merged_result[i].push(grid[i][j]);
 						} else if (grid[i][j] === grid[i][j+1]) {
 							merged_result[i].push(grid[i][j] + grid[i][j+1]);
+							score += grid[i][j] + grid[i][j+1];
+							$('#score h5').text(score);
 							merged = true;
 
 							if (grid[i][j] + grid[i][j+1] === 59049) {
@@ -176,6 +178,8 @@ $(document).ready(function(){
 						if (grid[i][j] === merged_result[i-1][j] || merged_result[i-1][j] === 0) { // if the current element is the same as the one above it in the column
 																																											// OR if the previous element in the column is equal to 0 
 							merged_result[i-1][j] += grid[i][j]; //then merge them
+							score += merged_result[i-1][j] + grid[i][j];
+							$('#score h5').text(score);
 							merged_result[i][j] = 0; //and set the current element in the new array to be 0
 
 
@@ -202,6 +206,8 @@ $(document).ready(function(){
 					if (grid[i][j] === merged_result[i+1][j] || merged_result[i+1][j] === 0) {
 
 						merged_result[i+1][j] += grid[i][j];
+						score += merged_result[i+1][j] + grid[i][j];
+						$('#score h5').text(score);
 						merged_result[i][j] = 0;
 
 						if (grid[i][j] + grid[i][j+1] === 3072) {
@@ -266,7 +272,7 @@ $(document).ready(function(){
 			}
 		}
 		return merged_grid;
-		// set_merged(merged_grid);
+		set_merged(merged_grid);
 	}
 
 	function set_merged(results) {
@@ -303,7 +309,6 @@ $(document).ready(function(){
 					}
 			 	}
 			 }
-			 return results; 
 		}
 
 	function win() {
