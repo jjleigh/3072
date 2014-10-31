@@ -128,7 +128,14 @@ table > td {
 }
 
 
-
+.tile-move {
+	-webkit-transform: translateX();
+	transform: translateX();
+	-webkit-transition-property: -webkit-transform;
+	-moz-transition-property: -moz-transform;
+	transition-property: transform;
+	z-index: 10;
+}
 
 @media screen and (max-width: 1295px) {
 

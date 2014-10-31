@@ -18,7 +18,8 @@ $(document).ready(function(){
 					var combo = x + '' + y;
 				if (grid[x][y] === 0) {
 		 			grid[x][y] = 3;
-		 			$('td[id=' + combo + ']').text(3).addClass('three-zero-seven-two');
+		 			$('td[id=' + combo + ']').text(3).addClass('three');
+		 			$('#score h5').text(0);
 		 			count++;
 	 			}
 			}
