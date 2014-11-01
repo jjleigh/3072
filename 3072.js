@@ -277,11 +277,17 @@ $(document).ready(function(){
 	}
 
 	function set_merged(results) {
+
+		$('td').each(function(){
+			$(this).empty().removeClass();
+		});
 			for (var i = 0; i < results.length; i++) {
 			 	for (var j = 0; j < results.length; j++) {
 					var item = results[i][j];
-					var cell = $('td[id=' + i + "" + j + ']').text(item);
 
+					if (item != 0) {
+						var cell = $('td[id=' + j + "" + i + ']').text(item);
+					}
 					switch (item) {
 						case 3:
 							cell.addClass('three'); break;
