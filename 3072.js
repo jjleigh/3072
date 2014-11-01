@@ -15,7 +15,7 @@ $(document).ready(function(){
 			while (count < 2) {
 					var x = rand();
 					var y = rand();
-					var combo = y + '' + x;
+					var combo = x + '' + y;
 				if (grid[x][y] === 0) {
 		 			grid[x][y] = 3;
 		 			$('td[id=' + combo + ']').text(3).addClass('three');
@@ -76,7 +76,7 @@ $(document).ready(function(){
 						init[i].push(grid[i][j]);	
 					}			
 				}
-				while (init.length < 4) {
+				while (init[i].length < 4) {
 					init[i].unshift(0);
 				}
 			}
@@ -286,7 +286,7 @@ $(document).ready(function(){
 					var item = results[i][j];
 
 					if (item != 0) {
-						var cell = $('td[id=' + j + "" + i + ']').text(item);
+						var cell = $('td[id=' + i + "" + j + ']').text(item);
 					}
 					switch (item) {
 						case 3:
