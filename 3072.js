@@ -112,7 +112,8 @@ $(document).ready(function(){
 
 			for (var i = grid.length - 1; i > -1; i--) {
 				for (var j = 0; j < grid.length; j++) {
-
+					var nextCellCheck = false;
+					
 					if (i === 3) {
 							init[i].push(grid[i][j]);
 					} else {
@@ -120,10 +121,16 @@ $(document).ready(function(){
 
 							init[i].push(grid[i][j]);
 
-						} else if (init[i+1][j] === 0) {
+						} else {
 
-							init[i+1][j] = grid[i][j];
-							init[i][j] = 0;
+							for (var nex = grid.length - 1; nex >= i + 1; nex--) {
+								if (init[nex][j] === 0 && nextCellCheck === false) {
+									init[nex][j] = grid[i][j];
+									init[i][j]= 0;
+									nextCellCheck = true;
+								}
+							}
+							
 						} 
 					}
 				}
