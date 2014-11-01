@@ -85,6 +85,7 @@ $(document).ready(function(){
 			
 				for (var i = 0; i < grid.length; i++) {
 					for (var j = 0; j < grid.length; j++) {
+						var previousCellCheck = false;
 
 						if (i === 0) {
 							init[i].push(grid[i][j]);
@@ -93,10 +94,14 @@ $(document).ready(function(){
 
 								init[i].push(grid[i][j]);
 
-							} else if (init[i-1][j] === 0) {
-
-								init[i-1][j] = grid[i][j];
-								init[i][j] = 0;
+							} else {
+								for (var prev = 0; prev <= i-1; prev++) {
+									if (init[prev][j] === 0 && previousCellCheck === false) {
+										init[prev][j] = grid[i][j];
+										init[i][j] = 0;
+										previousCellCheck = true;
+									} 
+								}	
 							} 
 						}
 					}
