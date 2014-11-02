@@ -50,11 +50,13 @@ $(document).ready(function(){
 	// this function takes iterates of the grid and for each row it slides all its values together and 
 	// adds zeros if the new array length is less than 4
 
-	function slide(grid, direction){
+	function slide(grid){
+	
+ 	$(window).on('keyup', function(event){
+ 		var code = event.keyCode;
 		var init = [[],[],[],[]];
- 
-		if (direction === "left") {
-
+		if (code === 37) { // 
+		  alert("you pressed the left arrow");
 			for (var i = 0; i < grid.length; i++) {
 				for (var j = 0; j < grid.length; j++) {
 
@@ -67,8 +69,8 @@ $(document).ready(function(){
 				}
 			}
 
-		} else if (direction === "right") {  // if right arrow is pressed 
-
+		} else if (code === 39){  // if right arrow is pressed 
+			alert("you pressed the right arrow");
 			for (var i = 0; i < grid.length; i++) {
 				for (var j = 0; j < grid.length; j++) {
 					
@@ -81,11 +83,12 @@ $(document).ready(function(){
 				}
 			}
 
-		} else if (direction === "up") {  // if up arrow is pressed
-			
+		} else if (code === 38) {  // if up arrow is pressed
+				alert("you pressed the up arrow");
+					
 				for (var i = 0; i < grid.length; i++) {
 					for (var j = 0; j < grid.length; j++) {
-						var previousCellCheck = false;
+					var previousCellCheck = false;
 
 						if (i === 0) {
 							init[i].push(grid[i][j]);
@@ -95,25 +98,27 @@ $(document).ready(function(){
 								init[i].push(grid[i][j]);
 
 							} else {
+	
 								for (var prev = 0; prev <= i-1; prev++) {
 									if (init[prev][j] === 0 && previousCellCheck === false) {
 										init[prev][j] = grid[i][j];
 										init[i][j] = 0;
 										previousCellCheck = true;
 									} 
-								}	
-							} 
+								}
+								
+							}
 						}
 					}
 					
 				}
 
-		} else if (direction === "down"){  // if down arrow is pressed 
-
+		} else if (code === 40){  // if down arrow is pressed 
+			alert("you pressed the down arrow");
 			for (var i = grid.length - 1; i > -1; i--) {
 				for (var j = 0; j < grid.length; j++) {
 					var nextCellCheck = false;
-					
+
 					if (i === 3) {
 							init[i].push(grid[i][j]);
 					} else {
@@ -130,20 +135,21 @@ $(document).ready(function(){
 									nextCellCheck = true;
 								}
 							}
-							
 						} 
 					}
 				}
 			}
 		}
-		return merge(init, direction);
+			merge(init, code);
+		});
+
 	}
 
-	function merge(grid, direction) { 
+	function merge(grid, code) { 
 		var merged_result = [[],[],[],[]];
 		var merged = false;
 
-		if (direction === "right" || direction === "left") {
+		if (code === 39 || code === 37) {
 
 			for (var i = 0; i < grid.length; i++) {
 				for (var j = 0; j < grid.length; j++) {
@@ -167,12 +173,12 @@ $(document).ready(function(){
 						merged = false;
 					}
 				}
-				if (direction === "right") {
+				if (code === 39) {
 
 					while(merged_result[i].length < 4) {
 						merged_result[i].unshift(0);
 					}
-				} else if (direction === "left") {
+				} else if (code === 37) {
 
 					while(merged_result[i].length < 4) {
 						merged_result[i].push(0);
@@ -180,7 +186,7 @@ $(document).ready(function(){
 				}
 			}
 
-		} else if (direction === "up") {
+		} else if (code === 38) {
 			merged_result[0] = grid[0]; // set the first array to the be the same as the first arry in grid
 
 
@@ -208,7 +214,7 @@ $(document).ready(function(){
 
 				}
 			}
-		} else if (direction === "down") {
+		} else if (code === 40) {
 
 			merged_result[merged_result.length-1] = grid.slice(-1)[0]; // this sets the last element in the merged results array to
 																													// be the last element in the grid array
@@ -327,7 +333,8 @@ $(document).ready(function(){
 							cell.addClass('three'); break;
 					}
 			 	}
-			 }
+			}
+			slide(results);
 		}
 
 	function win() {
