@@ -132,105 +132,114 @@ function slide(grid){
 		});
 
 	}
+function merge (grid, code) {
 
-	function merge(grid, code) { 
-		var merged_result = [[],[],[],[]];
-		var merged = false;
-
-		if (code === 39 || code === 37) {
+	if(code === 37) {
 
 			for (var i = 0; i < grid.length; i++) {
-				for (var j = 0; j < grid.length; j++) {
+				for (var j = 0; j < grid.length - 1; j++) {
 
-
-					if (merged !== true) {
-						
-						if (grid[i][j] !== grid[i][j+1] && grid[i][j] !== 0){
-							merged_result[i].push(grid[i][j]);
-						} else if (grid[i][j] === grid[i][j+1]) {
-							merged_result[i].push(grid[i][j] + grid[i][j+1]);
-							score += grid[i][j] + grid[i][j+1];
-							$('#score h5').text(score);
-							merged = true;
-
-							if (grid[i][j] + grid[i][j+1] === 3072) {
-								win();
-							}
-						} 
-					} else {
-						merged = false;
-					}
-				}
-				if (code === 39) {
-
-					while(merged_result[i].length < 4) {
-						merged_result[i].unshift(0);
-					}
-				} else if (code === 37) {
-
-					while(merged_result[i].length < 4) {
-						merged_result[i].push(0);
-					}
-				}
-			}
-
-		} else if (code === 38) {
-			merged_result[0] = grid[0]; // set the first array to the be the same as the first arry in grid
-
-
-			for (var i = 1; i < grid.length; i++) {
-				for (var j = 0; j < grid.length; j++) {
-
-
-						if (grid[i][j] === merged_result[i-1][j] || merged_result[i-1][j] === 0) { // if the current element is the same as the one above it in the column
-																																											// OR if the previous element in the column is equal to 0 
-							merged_result[i-1][j] += grid[i][j]; //then merge them
-							score += merged_result[i-1][j] + grid[i][j];
-							$('#score h5').text(score);
-							merged_result[i][j] = 0; //and set the current element in the new array to be 0
-
-
-							if (grid[i][j] + grid[i][j+1] === 3072) {
-								win();
-							}
-
-						}  else if (grid[i][j] !== merged_result[i-1][j] ) { // if the current element in grid is not 
-																																//the same as the previous one in the column
-
-								merged_result[i][j] = grid[i][j]; // then set that current grid element to be the the current element in the new array
-						}
-
-				}
-			}
-		} else if (code === 40) {
-
-			merged_result[merged_result.length-1] = grid.slice(-1)[0]; // this sets the last element in the merged results array to
-																													// be the last element in the grid array
-
-			for (var i = grid.length -2; i > grid.length -1; i--) {
-				for (var j = 0; j < grid.length; j++) {
-
-					if (grid[i][j] === merged_result[i+1][j] || merged_result[i+1][j] === 0) {
-
-						merged_result[i+1][j] += grid[i][j];
-						score += merged_result[i+1][j] + grid[i][j];
+					if (grid[i][j] === grid[i][j+1]) {
+						grid[i][j] += grid[i][j+1];
+						grid[i].splice(j + 1,1);
+						grid[i].push(0);
+						score += grid[i][j] + grid[i][j+1];
 						$('#score h5').text(score);
-						merged_result[i][j] = 0;
 
 						if (grid[i][j] + grid[i][j+1] === 3072) {
-								win();
-							}
-
-					} else if (grid[i][j] !== merged_result[i+1][j]) {
-						merged_result[i][j] = grid[i][j];
+							win();
+						}
 					}
 				}
 			}
-		}
-		// set_merged(merged_result);
-		newTile(merged_result, code);
-		// return newTile(merged_result, direction);
+		} else if (code === 39) {
+
+			for (var i = 0; i < grid.length; i++) {
+				for (var j = grid.length -1; j >= 1; j--) {
+
+					if (grid[i][j] === grid[i][j-1]) {
+						grid[i][j] += grid[i][j-1];
+						grid[i].splice(j - 1,1);
+						grid[i].unshift(0);
+						score += grid[i][j] + grid[i][j-1];
+						$('#score h5').text(score);
+
+						if (grid[i][j] + grid[i][j-1] === 3072) {
+							win();
+						}
+					}
+				}
+			}
+
+		} else if(code === 38) {
+
+
+			for (var i = 0; i < grid.length - 1; i++) {
+				for (var j = 0; j <= grid.length-1; j++) {
+
+					if (grid[i][j] === grid[i + 1][j]) {
+						grid[i][j] += grid[i + 1][j];
+						score += grid[i][j] + grid[i + 1][j];
+						$('#score h5').text(score);
+
+						if (i === 0) {
+							grid[i + 1][j] = grid[i + 2][j];
+							grid[i + 2][j] = grid[i + 3][j];
+							grid[i + 3][j] = 0;
+
+						} else if (i === 1) {
+							grid[i+1][j] = grid[i+2][j];
+							grid[i+2][j] = 0;
+
+						} else if (i === 2) {
+							grid[i+1][j] =0;
+
+						}
+
+						
+						if (grid[i][j] + grid[i +1][j] === 3072) {
+							win();
+						}
+					}
+				}
+			}
+		
+	} else if(code === 40) {
+
+		for (var i = grid.length-1; i >= 1; i--) {
+				for (var j = 0; j <= grid.length-1; j++) {
+
+					if (grid[i][j] === grid[i - 1][j]) {
+							grid[i][j] += grid[i - 1][j];
+							score += grid[i][j] + grid[i - 1][j];
+							$('#score h5').text(score);
+
+						if (i === grid.length-1) {
+							grid[i - 1][j] = grid[i - 2][j];
+							grid[i - 2][j] = grid[i - 3][j];
+							grid[i - 3][j] = 0;
+							
+						} else if (i === grid.length-2) {
+							grid[i-1][j] = grid[i-2][j];
+							grid[i-2][j] = 0;
+
+						} else if (i === grid.length- 3) {
+							grid[i-1][j] =0;
+						}
+
+
+
+						if (grid[i][j] + grid[i - 1][j] === 3072) {
+							win();
+						}
+					}
+				}
+			}
+
 	}
+	newTile(grid, code);
+
+}
 
 	function newTile(merged_grid, code) {
 		var newTileGenerated = false;
