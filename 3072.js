@@ -1,11 +1,9 @@
 $(document).ready(function(){
-	var turn = 0;
+
 	var grid = [[0,0,0,0], [0,0,0,0], [0,0,0,0],[0,0,0,0]];
 	var score = 0;
 
 	function start_grid(grid) {
-
-		$(window).on('load', function(){
 
 			var count = 0;
 			var rand = function () {
@@ -23,40 +21,18 @@ $(document).ready(function(){
 		 			count++;
 	 			}
 			}
-		});
-		move();	
+			slide(grid);
+
 	}
 	start_grid(grid);
 
-	// the move function moves tiles in a particular direction based on which arrow is pressed
-	function move() {
-
-		$(window).on('keyup', function(event){
-			if (event.keyCode === 37) {
-				slide(grid,'left');
-			} else if (event.keyCode === 38) {
-				alert("you pressed the up key");				
-				slide(grid,'up');
-			} else if (event.keyCode === 39) {
-				slide(grid,'right');
-			} else if (event.keyCode === 40){	
-				slide(grid,'down');
-			}
-
-		});
-
-	}
-
-	// this function takes iterates of the grid and for each row it slides all its values together and 
-	// adds zeros if the new array length is less than 4
-
-	function slide(grid){
-	
+function slide(grid){
+	$(window).off('keyup');
  	$(window).on('keyup', function(event){
- 		var code = event.keyCode;
 		var init = [[],[],[],[]];
+ 		var code = event.keyCode;
 		if (code === 37) { // 
-		  alert("you pressed the left arrow");
+		  // alert("you pressed the left arrow");
 			for (var i = 0; i < grid.length; i++) {
 				for (var j = 0; j < grid.length; j++) {
 
@@ -70,7 +46,7 @@ $(document).ready(function(){
 			}
 
 		} else if (code === 39){  // if right arrow is pressed 
-			alert("you pressed the right arrow");
+			// alert("you pressed the right arrow");
 			for (var i = 0; i < grid.length; i++) {
 				for (var j = 0; j < grid.length; j++) {
 					
@@ -84,7 +60,7 @@ $(document).ready(function(){
 			}
 
 		} else if (code === 38) {  // if up arrow is pressed
-				alert("you pressed the up arrow");
+				// alert("you pressed the up arrow");
 					
 				for (var i = 0; i < grid.length; i++) {
 					for (var j = 0; j < grid.length; j++) {
@@ -99,7 +75,8 @@ $(document).ready(function(){
 
 							} else {
 	
-								for (var prev = 0; prev <= i-1; prev++) {
+								for (var prev = 0; prev < i; prev++) {
+									
 									if (init[prev][j] === 0 && previousCellCheck === false) {
 										init[prev][j] = grid[i][j];
 										init[i][j] = 0;
@@ -114,7 +91,7 @@ $(document).ready(function(){
 				}
 
 		} else if (code === 40){  // if down arrow is pressed 
-			alert("you pressed the down arrow");
+			// alert("you pressed the down arrow");
 			for (var i = grid.length - 1; i > -1; i--) {
 				for (var j = 0; j < grid.length; j++) {
 					var nextCellCheck = false;
@@ -128,7 +105,7 @@ $(document).ready(function(){
 
 						} else {
 
-							for (var nex = grid.length - 1; nex >= i + 1; nex--) {
+							for (var nex = grid.length - 1; nex > i; nex--) {
 								if (init[nex][j] === 0 && nextCellCheck === false) {
 									init[nex][j] = grid[i][j];
 									init[i][j]= 0;
@@ -141,113 +118,125 @@ $(document).ready(function(){
 			}
 		}
 			merge(init, code);
+
 		});
 
 	}
 
-	function merge(grid, code) { 
-		var merged_result = [[],[],[],[]];
-		var merged = false;
 
-		if (code === 39 || code === 37) {
+function merge (grid, code) {
 
+	if(code === 37) {
 			for (var i = 0; i < grid.length; i++) {
-				for (var j = 0; j < grid.length; j++) {
+				for (var j = 0; j < grid.length - 1; j++) {
 
-
-					if (merged !== true) {
-						
-						if (grid[i][j] !== grid[i][j+1] && grid[i][j] !== 0){
-							merged_result[i].push(grid[i][j]);
-						} else if (grid[i][j] === grid[i][j+1]) {
-							merged_result[i].push(grid[i][j] + grid[i][j+1]);
-							score += grid[i][j] + grid[i][j+1];
-							$('#score h5').text(score);
-							merged = true;
-
-							if (grid[i][j] + grid[i][j+1] === 59049) {
-								win();
-							}
-						} 
-					} else {
-						merged = false;
-					}
-				}
-				if (code === 39) {
-
-					while(merged_result[i].length < 4) {
-						merged_result[i].unshift(0);
-					}
-				} else if (code === 37) {
-
-					while(merged_result[i].length < 4) {
-						merged_result[i].push(0);
-					}
-				}
-			}
-
-		} else if (code === 38) {
-			merged_result[0] = grid[0]; // set the first array to the be the same as the first arry in grid
-
-
-			for (var i = 1; i < grid.length; i++) {
-				for (var j = 0; j < grid.length; j++) {
-
-
-						if (grid[i][j] === merged_result[i-1][j] || merged_result[i-1][j] === 0) { // if the current element is the same as the one above it in the column
-																																											// OR if the previous element in the column is equal to 0 
-							merged_result[i-1][j] += grid[i][j]; //then merge them
-							score += merged_result[i-1][j] + grid[i][j];
-							$('#score h5').text(score);
-							merged_result[i][j] = 0; //and set the current element in the new array to be 0
-
-
-							if (grid[i][j] + grid[i][j+1] === 59049) {
-								win();
-							}
-
-						}  else if (grid[i][j] !== merged_result[i-1][j] ) { // if the current element in grid is not 
-																																//the same as the previous one in the column
-
-								merged_result[i][j] = grid[i][j]; // then set that current grid element to be the the current element in the new array
-						}
-
-				}
-			}
-		} else if (code === 40) {
-
-			merged_result[merged_result.length-1] = grid.slice(-1)[0]; // this sets the last element in the merged results array to
-																													// be the last element in the grid array
-
-			for (var i = grid.length -2; i > grid.length -1; i--) {
-				for (var j = 0; j < grid.length; j++) {
-
-					if (grid[i][j] === merged_result[i+1][j] || merged_result[i+1][j] === 0) {
-
-						merged_result[i+1][j] += grid[i][j];
-						score += merged_result[i+1][j] + grid[i][j];
+					if (grid[i][j] === grid[i][j+1]) {
+						grid[i][j] += grid[i][j+1];
+						grid[i].splice(j + 1,1);
+						grid[i].push(0);
+						score += grid[i][j];
 						$('#score h5').text(score);
-						merged_result[i][j] = 0;
 
 						if (grid[i][j] + grid[i][j+1] === 3072) {
-								win();
-							}
-
-					} else if (grid[i][j] !== merged_result[i+1][j]) {
-						merged_result[i][j] = grid[i][j];
+							win();
+						}
 					}
 				}
 			}
-		}
-		return newTile(merged_result, direction);
+		} else if (code === 39) {
+
+			for (var i = 0; i < grid.length; i++) {
+				for (var j = grid.length -1; j >= 1; j--) {
+
+					if (grid[i][j] === grid[i][j-1]) {
+						grid[i][j] += grid[i][j-1];
+						grid[i].splice(j - 1,1);
+						grid[i].unshift(0);
+						score += grid[i][j];
+						$('#score h5').text(score);
+
+						if (grid[i][j] + grid[i][j-1] === 3072) {
+							win();
+						}
+					}
+				}
+			}
+
+		} else if(code === 38) {
+
+
+			for (var i = 0; i < grid.length - 1; i++) {
+				for (var j = 0; j <= grid.length-1; j++) {
+
+					if (grid[i][j] === grid[i + 1][j]) {
+						grid[i][j] += grid[i + 1][j];
+						score += grid[i][j];
+						$('#score h5').text(score);
+
+						if (i === 0) {
+							grid[i + 1][j] = grid[i + 2][j];
+							grid[i + 2][j] = grid[i + 3][j];
+							grid[i + 3][j] = 0;
+
+						} else if (i === 1) {
+							grid[i+1][j] = grid[i+2][j];
+							grid[i+2][j] = 0;
+
+						} else if (i === 2) {
+							grid[i+1][j] =0;
+
+						}
+
+						
+						if (grid[i][j] + grid[i +1][j] === 3072) {
+							win();
+						}
+					}
+				}
+			}
+		
+	} else if(code === 40) {
+
+		for (var i = grid.length-1; i >= 1; i--) {
+				for (var j = 0; j <= grid.length-1; j++) {
+
+					if (grid[i][j] === grid[i - 1][j]) {
+							grid[i][j] += grid[i - 1][j];
+							score += grid[i][j];
+							$('#score h5').text(score);
+
+						if (i === grid.length-1) {
+							grid[i - 1][j] = grid[i - 2][j];
+							grid[i - 2][j] = grid[i - 3][j];
+							grid[i - 3][j] = 0;
+							
+						} else if (i === grid.length-2) {
+							grid[i-1][j] = grid[i-2][j];
+							grid[i-2][j] = 0;
+
+						} else if (i === grid.length- 3) {
+							grid[i-1][j] =0;
+						}
+
+
+
+						if (grid[i][j] + grid[i - 1][j] === 3072) {
+							win();
+						}
+					}
+				}
+			}
+
 	}
+	console.log("firing slide...");
+	newTile(grid, code);
+}
 
-
-	function newTile(merged_grid, direction) {
+	function newTile(merged_grid, code) {
 		var newTileGenerated = false;
 		var x;
 		var y;
-		var tile;
+		var tileValue;
 
 		// returns a random number withing a givin range
 		var rand = function (start, end) {
@@ -257,32 +246,32 @@ $(document).ready(function(){
 		var tileCheck = function(value, row, column) {
 			if (value === 0) {
 				newTileGenerated = true;
-				merged_grid[row][column] = 2;
+				merged_grid[row][column] = 3;
 			}
 		};
 		// until a new tile with a zero value has been selected keep genereating new tiles
 		while (newTileGenerated === false) {
 
 
-			if (direction === "left") {
+			if (code === 37) {
 				x = rand(0,3)
 				y = rand(2,3)
 				tileValue = merged_grid[x][y];
 				tileCheck(tileValue, x, y);
 
-			} else if (direction === "right") {
+			} else if (code === 39) {
 				x = rand(0,3)
 				y = rand(0,1)
 				tileValue = merged_grid[x][y];
 				tileCheck(tileValue, x, y);
 
-			} else if (direction === "up") {
+			} else if (code === 38) {
 				x = rand(2,3)
 				y = rand(0,3)
 				tileValue = merged_grid[x][y];
 				tileCheck(tileValue, x, y);
 
-			} else if (direction === "down") {
+			} else if (code === 40) {
 				x = rand(0,1)
 				y = rand(0,3)
 				tileValue = merged_grid[x][y];
@@ -290,22 +279,22 @@ $(document).ready(function(){
 
 			}
 		}
-		return merged_grid;
 		set_merged(merged_grid);
+		slide(merged_grid);
 	}
 
 	function set_merged(results) {
-
+		// reset the grid
 		$('td').each(function(){
 			$(this).empty().removeClass();
 		});
-			for (var i = 0; i < results.length; i++) {
-			 	for (var j = 0; j < results.length; j++) {
-					var item = results[i][j];
 
-					if (item != 0) {
-						var cell = $('td[id=' + i + "" + j + ']').text(item);
-					}
+		// set the new grid
+		for (var i = 0; i < results.length; i++) {
+		 	for (var j = 0; j < results.length; j++) {
+				var item = results[i][j];
+				if (item != 0) {
+					var cell = $('td[id=' + i + "" + j + ']').text(item);
 					switch (item) {
 						case 3:
 							cell.addClass('three'); break;
@@ -329,26 +318,11 @@ $(document).ready(function(){
 							cell.addClass('one-five-three-six'); break;
 						case 3072:
 							cell.addClass('three-zero-seven-two'); break;
-						default:
-							cell.addClass('three'); break;
-					}
-			 	}
-			}
-			slide(results);
-		}
+				}
 
-	function win() {
-		 var answer = confirm("congrats! you won. Would you like to play again?");
-
-		if (answer === true) {location.reload();}
-
-		// $('table').css({});
-	}
-
-	function lose() {
-		var answer = confirm("Awe thats sucks, would you like to play again?");
-		if (answer === true) {location.reload();}
+				}
+		 	}
+		} 
 
 	}
-});
-
+	});
