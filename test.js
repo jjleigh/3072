@@ -1,19 +1,9 @@
-
 $(document).ready(function(){
 
 	var grid = [[0,0,0,0], [0,0,0,0], [0,0,0,0],[0,0,0,0]];
-		// var grid = { "00": 0, "01": 0, "02": 0, "03": 0,
-		// 						 "10": 0, "11": 0, "12": 0, "13": 0,
-		// 						 "20": 0, "21": 0, "22": 0, "23": 0,
-		// 						 "30": 0, "31": 0, "32": 0, "33": 0
-		// };
-
-
 	var score = 0;
 
 	function start_grid(grid) {
-
-		$(window).on('load', function(){
 
 			var count = 0;
 			var rand = function () {
@@ -32,12 +22,12 @@ $(document).ready(function(){
 	 			}
 			}
 			slide(grid);
-		});
+
 	}
 	start_grid(grid);
 
 function slide(grid){
-	
+	$(window).off('keyup');
  	$(window).on('keyup', function(event){
 		var init = [[],[],[],[]];
  		var code = event.keyCode;
@@ -132,10 +122,11 @@ function slide(grid){
 		});
 
 	}
+
+
 function merge (grid, code) {
 
 	if(code === 37) {
-
 			for (var i = 0; i < grid.length; i++) {
 				for (var j = 0; j < grid.length - 1; j++) {
 
@@ -143,7 +134,7 @@ function merge (grid, code) {
 						grid[i][j] += grid[i][j+1];
 						grid[i].splice(j + 1,1);
 						grid[i].push(0);
-						score += grid[i][j] + grid[i][j+1];
+						score += grid[i][j];
 						$('#score h5').text(score);
 
 						if (grid[i][j] + grid[i][j+1] === 3072) {
@@ -161,7 +152,7 @@ function merge (grid, code) {
 						grid[i][j] += grid[i][j-1];
 						grid[i].splice(j - 1,1);
 						grid[i].unshift(0);
-						score += grid[i][j] + grid[i][j-1];
+						score += grid[i][j];
 						$('#score h5').text(score);
 
 						if (grid[i][j] + grid[i][j-1] === 3072) {
@@ -179,7 +170,7 @@ function merge (grid, code) {
 
 					if (grid[i][j] === grid[i + 1][j]) {
 						grid[i][j] += grid[i + 1][j];
-						score += grid[i][j] + grid[i + 1][j];
+						score += grid[i][j];
 						$('#score h5').text(score);
 
 						if (i === 0) {
@@ -211,7 +202,7 @@ function merge (grid, code) {
 
 					if (grid[i][j] === grid[i - 1][j]) {
 							grid[i][j] += grid[i - 1][j];
-							score += grid[i][j] + grid[i - 1][j];
+							score += grid[i][j];
 							$('#score h5').text(score);
 
 						if (i === grid.length-1) {
@@ -237,15 +228,15 @@ function merge (grid, code) {
 			}
 
 	}
+	console.log("firing slide...");
 	newTile(grid, code);
-
 }
 
 	function newTile(merged_grid, code) {
 		var newTileGenerated = false;
 		var x;
 		var y;
-		var tile;
+		var tileValue;
 
 		// returns a random number withing a givin range
 		var rand = function (start, end) {
@@ -289,6 +280,7 @@ function merge (grid, code) {
 			}
 		}
 		set_merged(merged_grid);
+		slide(merged_grid);
 	}
 
 	function set_merged(results) {
@@ -331,6 +323,6 @@ function merge (grid, code) {
 				}
 		 	}
 		} 
-				slide(results);
+
 	}
 	});

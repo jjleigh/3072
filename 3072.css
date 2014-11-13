@@ -1,0 +1,344 @@
+
+
+/*# sourceMappingURL=3072.css.map */
+
+body {
+	background-color: white;
+}
+
+.container-left {
+	float: left;
+	width: 50%;
+}
+
+#header-container {
+	font-size: 60px;
+	color: #6D96A6;
+}
+
+h1 {
+	margin-bottom: 35px;
+	font-family: lato;
+	margin-left: 33%;
+}
+
+#score {
+	background-color: #6D96A6;
+	border-radius: 5px;
+	color: white;
+	margin-left: 35%;	
+	font-family: lato;
+	width: 250px;
+	text-align: center;
+}
+
+h3 {
+	font-size: 45px;
+	margin: 0 5px 0;
+	padding-top: 10px;
+	font-family: lato;
+
+}
+
+h5 {
+	margin: 0 5px 5px;
+	font-family: lato;
+	font-size: 35px;
+
+}
+
+#table-container {
+	width: 50%;
+	float: right;
+	margin: 0 auto;
+}
+
+table {
+	border-spacing: 7px;
+	padding: 5px;
+	background-color: #6D96A6;
+	margin: 0 auto;
+}
+
+td {
+	background-color: #F3F3F2;
+	border-radius: 4px;
+	width: 138px;
+	height: 138px;
+	text-align: center;	
+	font-size: 50px;
+	font-family: Amaranth;
+}
+
+table > td {
+	border-spacing: 70px;
+}
+
+.three {
+	background-color: #F2E8DC;
+	color:#8C8279;
+
+}
+
+.six {
+	background-color: silver;
+	color: white;
+	
+}
+
+.twelve {
+	background-color: #8C8279;
+	color: white;
+	
+}
+.twenty-four {
+	background-color: #7F615F;
+	color: white;
+	
+}
+.forty-eight {
+	background-color: #4D3C73;
+	color:white;
+	
+}
+.ninety-six {
+	background-color: #902940;
+	color:white;
+	
+}
+.one-nine-two {
+	background-color: #814056;
+	color:white;
+	
+}
+
+.three-eight-four {
+	background-color: #594253;
+	color:white;
+	
+}
+.seven-six-eight {
+	background-color: #8C6D87;
+	color:white;
+	
+}
+.one-five-three-six {
+	background-color: #394381;
+	color:white;	
+}
+.three-zero-seven-two {
+	background-color: #593431;
+	color:white;	
+}
+
+
+.tile-move {
+	-webkit-transform: translateX();
+	transform: translateX();
+	-webkit-transition-property: -webkit-transform;
+	-moz-transition-property: -moz-transform;
+	transition-property: transform;
+	z-index: 10;
+}
+
+@media screen and (max-width: 1295px) {
+
+	.container-left {
+		float: none;
+		margin: 0 auto;
+	}
+	
+	#header-container {
+		font-family: lato;
+		color: #6D96A6;
+		text-align: center;
+		margin: 0 auto;
+	}
+
+	h1 {
+		margin-left: 0;
+		margin-top: 50px;
+	}
+
+
+	#header {
+		font-family: lato;
+		font-size: 60px;
+		margin-bottom: 35px;
+	}
+
+	#score {
+		font-family: lato;
+		background-color: #6D96A6;
+		border-radius: 5px;
+		padding: 0 50px;
+		color: white;
+		margin:0 auto;
+		margin-bottom: 30px;
+	}
+
+	h3 {
+		font-size: 45px;
+		margin: 0 5px 0;
+		padding-top: 10px;
+	}
+
+	h5 {
+		margin: 0 5px 5px;
+		font-size: 35px;
+
+	}
+
+	/*styling for table*/
+	#table-container {
+		background-color: #6D96A6;
+		margin-left: 41%;
+		width: 610px;
+		height: 610px;
+		border-radius: 4px;
+		float: none;
+		margin: 0 auto;
+	}
+
+	table {
+		border-spacing: 7px;
+		padding: 5px;
+
+	}
+
+	td {
+		background-color: #F3F3F2;
+		border-radius: 4px;
+		width: 138px;
+		height: 138px;
+		text-align: center;	
+		font-size: 50px;
+		font-family: Amaranth;
+	}
+
+	table > td {
+		border-spacing: 70px;
+	}
+
+
+}
+
+@media screen and (max-width: 627px) {
+
+	h1 {
+		margin-left: 0;
+		margin-top: 50px;
+		font-size: 100px;
+	}
+
+
+	#score {
+		border-radius: 5px;
+		padding: 0 50px;
+		color: white;
+		margin:0 auto;
+		margin-bottom: 30px;
+		width: 100px;
+	}
+
+	h3 {
+		font-size: 38px;
+		margin: 0 5px 0;
+		padding-top: 10px;
+	}
+
+	h5 {
+		margin: 0 5px 5px;
+		font-size: 28px;
+
+	}
+
+	#table-container {
+		background-color: #6D96A6;
+		margin-left: 41%;
+		width: 580px;
+		height: 580px;
+		border-radius: 4px;
+		float: none;
+		margin: 0 auto;
+	}
+
+	table {
+		border-spacing: 7px;
+		padding: 5px;
+
+	}
+
+	td {
+		background-color: #F3F3F2;
+		border-radius: 4px;
+		width: 138px;
+		height: 138px;
+		text-align: center;	
+		font-size: 50px;
+		font-family: Amaranth;
+	}
+
+	table > td {
+		border-spacing: 70px;
+	}
+
+
+	}
+
+
+	@media screen and (max-width: 594px) {
+
+	h1 {
+		font-size: 80px;
+	}
+
+
+	#score {
+		margin:0 auto;
+		width: 90px;
+		margin-bottom: 30px;
+	}
+
+	h3 {
+		font-size: 34px;
+		margin: 0 5px 0;
+		padding-top: 10px;
+	}
+
+	h5 {
+		margin: 0 5px 5px;
+		font-size: 24px;
+	}
+
+	#table-container {
+		background-color: #6D96A6;
+		width: 382px;
+		height: 382px;
+		border-radius: 4px;
+		float: none;
+		margin: 0 auto;
+	}
+
+	table {
+		border-spacing: 7px;
+		padding: 5px;
+		margin-bottom: 10px;
+	}
+
+	td {
+		background-color: #F3F3F2;
+		border-radius: 4px;
+		width: 95px;
+		height: 95px;
+		text-align: center;	
+		font-size: 50px;
+		font-family: Amaranth;
+	}
+
+	table > td {
+		border-spacing: 70px;
+	}
+
+
+	}
