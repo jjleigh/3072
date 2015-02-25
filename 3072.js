@@ -44,6 +44,7 @@ function slide(grid){
 					init[i].push(0);
 				}
 			}
+			merge(init, code);
 
 		} else if (code === 39){  // if right arrow is pressed 
 			// alert("you pressed the right arrow");
@@ -58,6 +59,7 @@ function slide(grid){
 					init[i].unshift(0);
 				}
 			}
+			merge(init, code);
 
 		} else if (code === 38) {  // if up arrow is pressed
 				// alert("you pressed the up arrow");
@@ -89,6 +91,7 @@ function slide(grid){
 					}
 					
 				}
+				merge(init, code);
 
 		} else if (code === 40){  // if down arrow is pressed 
 			// alert("you pressed the down arrow");
@@ -116,13 +119,12 @@ function slide(grid){
 					}
 				}
 			}
-		}
 			merge(init, code);
+		}
 
 		});
 
 	}
-
 
 function merge (grid, code) {
 
@@ -143,6 +145,8 @@ function merge (grid, code) {
 					}
 				}
 			}
+
+			newTile(grid, code);
 		} else if (code === 39) {
 
 			for (var i = 0; i < grid.length; i++) {
@@ -161,6 +165,8 @@ function merge (grid, code) {
 					}
 				}
 			}
+
+			newTile(grid, code);
 
 		} else if(code === 38) {
 
@@ -194,6 +200,8 @@ function merge (grid, code) {
 					}
 				}
 			}
+
+		newTile(grid, code);
 		
 	} else if(code === 40) {
 
@@ -226,10 +234,8 @@ function merge (grid, code) {
 					}
 				}
 			}
-
+			newTile(grid, code);
 	}
-	console.log("firing slide...");
-	newTile(grid, code);
 }
 
 	function newTile(merged_grid, code) {
@@ -249,9 +255,9 @@ function merge (grid, code) {
 				merged_grid[row][column] = 3;
 			}
 		};
+
 		// until a new tile with a zero value has been selected keep genereating new tiles
 		while (newTileGenerated === false) {
-
 
 			if (code === 37) {
 				x = rand(0,3)
@@ -279,6 +285,7 @@ function merge (grid, code) {
 
 			}
 		}
+
 		set_merged(merged_grid);
 		slide(merged_grid);
 	}
