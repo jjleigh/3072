@@ -31,8 +31,8 @@ function slide(grid){
  	$(window).on('keyup', function(event){
 		var init = [[],[],[],[]];
  		var code = event.keyCode;
-		if (code === 37) { // 
-		  // alert("you pressed the left arrow");
+		if (code === 37) {
+		  
 			for (var i = 0; i < grid.length; i++) {
 				for (var j = 0; j < grid.length; j++) {
 
@@ -46,8 +46,7 @@ function slide(grid){
 			}
 			merge(init, code);
 
-		} else if (code === 39){  // if right arrow is pressed 
-			// alert("you pressed the right arrow");
+		} else if (code === 39){ 
 			for (var i = 0; i < grid.length; i++) {
 				for (var j = 0; j < grid.length; j++) {
 					
@@ -61,40 +60,38 @@ function slide(grid){
 			}
 			merge(init, code);
 
-		} else if (code === 38) {  // if up arrow is pressed
-				// alert("you pressed the up arrow");
+		} else if (code === 38) { 
 					
-				for (var i = 0; i < grid.length; i++) {
-					for (var j = 0; j < grid.length; j++) {
-					var previousCellCheck = false;
+			for (var i = 0; i < grid.length; i++) {
+				for (var j = 0; j < grid.length; j++) {
+				var previousCellCheck = false;
 
-						if (i === 0) {
+					if (i === 0) {
+						init[i].push(grid[i][j]);
+					} else {
+						if (init[i-1][j] !== 0) {
+
 							init[i].push(grid[i][j]);
+
 						} else {
-							if (init[i-1][j] !== 0) {
 
-								init[i].push(grid[i][j]);
-
-							} else {
-	
-								for (var prev = 0; prev < i; prev++) {
-									
-									if (init[prev][j] === 0 && previousCellCheck === false) {
-										init[prev][j] = grid[i][j];
-										init[i][j] = 0;
-										previousCellCheck = true;
-									} 
-								}
+							for (var prev = 0; prev < i; prev++) {
 								
+								if (init[prev][j] === 0 && previousCellCheck === false) {
+									init[prev][j] = grid[i][j];
+									init[i][j] = 0;
+									previousCellCheck = true;
+								} 
 							}
+							
 						}
 					}
-					
 				}
-				merge(init, code);
+				
+			}
+			merge(init, code);
 
-		} else if (code === 40){  // if down arrow is pressed 
-			// alert("you pressed the down arrow");
+		} else if (code === 40){ 
 			for (var i = grid.length - 1; i > -1; i--) {
 				for (var j = 0; j < grid.length; j++) {
 					var nextCellCheck = false;
@@ -123,8 +120,7 @@ function slide(grid){
 		}
 
 		});
-
-	}
+}
 
 function merge (grid, code) {
 
