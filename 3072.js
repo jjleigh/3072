@@ -22,109 +22,149 @@ $(document).ready(function(){
 	 			}
 			}
 			slide(grid);
-
 	}
 	start_grid(grid);
 
 function slide(grid){
-	$(window).off('keyup');
- 	$(window).on('keyup', function(event){
-		var init = [[],[],[],[]];
- 		var code = event.keyCode;
-		if (code === 37) {
-		  
-			for (var i = 0; i < grid.length; i++) {
-				for (var j = 0; j < grid.length; j++) {
+	var init = [[],[],[],[]];
+	var moveLeft = function(codeDirection) {
+		for (var i = 0; i < grid.length; i++) {
+			for (var j = 0; j < grid.length; j++) {
 
-					if (grid[i][j] > 0) {
-						init[i].push(grid[i][j]);
-					}			
-				}
-				while (init[i].length < 4) {
-					init[i].push(0);
-				}
+				if (grid[i][j] > 0) {
+					init[i].push(grid[i][j]);
+				}			
 			}
-			merge(init, code);
-
-		} else if (code === 39){ 
-			for (var i = 0; i < grid.length; i++) {
-				for (var j = 0; j < grid.length; j++) {
-					
-					if (grid[i][j] > 0) {
-						init[i].push(grid[i][j]);	
-					}			
-				}
-				while (init[i].length < 4) {
-					init[i].unshift(0);
-				}
+			while (init[i].length < 4) {
+				init[i].push(0);
 			}
-			merge(init, code);
-
-		} else if (code === 38) { 
-					
-			for (var i = 0; i < grid.length; i++) {
-				for (var j = 0; j < grid.length; j++) {
-				var previousCellCheck = false;
-
-					if (i === 0) {
-						init[i].push(grid[i][j]);
-					} else {
-						if (init[i-1][j] !== 0) {
-
-							init[i].push(grid[i][j]);
-
-						} else {
-
-							for (var prev = 0; prev < i; prev++) {
-								
-								if (init[prev][j] === 0 && previousCellCheck === false) {
-									init[prev][j] = grid[i][j];
-									init[i][j] = 0;
-									previousCellCheck = true;
-								} 
-							}
-							
-						}
-					}
-				}
-				
-			}
-			merge(init, code);
-
-		} else if (code === 40){ 
-			for (var i = grid.length - 1; i > -1; i--) {
-				for (var j = 0; j < grid.length; j++) {
-					var nextCellCheck = false;
-
-					if (i === 3) {
-							init[i].push(grid[i][j]);
-					} else {
-						if (init[i+1][j] !== 0) {
-
-							init[i].push(grid[i][j]);
-
-						} else {
-
-							for (var nex = grid.length - 1; nex > i; nex--) {
-								if (init[nex][j] === 0 && nextCellCheck === false) {
-									init[nex][j] = grid[i][j];
-									init[i][j]= 0;
-									nextCellCheck = true;
-								}
-							}
-						} 
-					}
-				}
-			}
-			merge(init, code);
 		}
+		merge(init, codeDirection);
+	}
+
+	var moveRight = function(codeDirection) {
+		for (var i = 0; i < grid.length; i++) {
+			for (var j = 0; j < grid.length; j++) {
+				
+				if (grid[i][j] > 0) {
+					init[i].push(grid[i][j]);	
+				}			
+			}
+			while (init[i].length < 4) {
+				init[i].unshift(0);
+			}
+		}
+		merge(init, codeDirection);
+	}
+
+	var moveUp = function(codeDirection) {
+		for (var i = 0; i < grid.length; i++) {
+			for (var j = 0; j < grid.length; j++) {
+			var previousCellCheck = false;
+
+				if (i === 0) {
+					init[i].push(grid[i][j]);
+				} else {
+					if (init[i-1][j] !== 0) {
+
+						init[i].push(grid[i][j]);
+
+					} else {
+
+						for (var prev = 0; prev < i; prev++) {
+							
+							if (init[prev][j] === 0 && previousCellCheck === false) {
+								init[prev][j] = grid[i][j];
+								init[i][j] = 0;
+								previousCellCheck = true;
+							} 
+						}
+						
+					}
+				}
+			}
+			
+		}
+		merge(init, codeDirection);
+	}
+	var moveDown = function(codeDirection) {
+		for (var i = grid.length - 1; i > -1; i--) {
+			for (var j = 0; j < grid.length; j++) {
+				var nextCellCheck = false;
+
+				if (i === 3) {
+						init[i].push(grid[i][j]);
+				} else {
+					if (init[i+1][j] !== 0) {
+
+						init[i].push(grid[i][j]);
+
+					} else {
+
+						for (var nex = grid.length - 1; nex > i; nex--) {
+							if (init[nex][j] === 0 && nextCellCheck === false) {
+								init[nex][j] = grid[i][j];
+								init[i][j]= 0;
+								nextCellCheck = true;
+							}
+						}
+					} 
+				}
+			}
+		}
+		merge(init, codeDirection);
+	}
+
+	if (Modernizr.touch === false) {
+		$(window).off('keyup');
+	 	$(window).on('keyup', function(event){
+	 		var code = event.keyCode;
+			if (code === 37) { 
+				moveLeft(code);
+
+			} else if (code === 39){ 
+				moveRight(code);
+
+			} else if (code === 38) { 
+				moveUp(code);	
+
+			} else if (code === 40){  
+				moveDown(code);
+
+			}
 
 		});
+
+	} else {
+		
+		$(window).off("swipeleft");
+		$(window).on("swipeleft", function(event) {
+			var direction = "left";
+			moveLeft(direction);
+		});
+
+		$(window).off("swiperight");
+		$(window).on("swiperight", function(event) {
+			var direction = "right";
+			moveRight(direction);
+		});
+
+		$(window).off("swipeup");
+		$(window).on("swipeup", function(event) {
+			var direction = "up";
+			moveUp(direction);
+		});
+
+		$(window).off("swipedown");
+		$(window).on("swipedown", function(event) {
+			var direction = "down";
+			moveDown(direction);
+		});
+	}
 }
 
-function merge (grid, code) {
-
-	if(code === 37) {
+function merge (grid, codeDirection) {
+	if(codeDirection === 37 || codeDirection === "left") {
 			for (var i = 0; i < grid.length; i++) {
 				for (var j = 0; j < grid.length - 1; j++) {
 
@@ -142,8 +182,8 @@ function merge (grid, code) {
 				}
 			}
 
-			newTile(grid, code);
-		} else if (code === 39) {
+			newTile(grid, codeDirection);
+		} else if (codeDirection === 39 || codeDirection === "right") {
 
 			for (var i = 0; i < grid.length; i++) {
 				for (var j = grid.length -1; j >= 1; j--) {
@@ -162,9 +202,9 @@ function merge (grid, code) {
 				}
 			}
 
-			newTile(grid, code);
+			newTile(grid, codeDirection);
 
-		} else if(code === 38) {
+		} else if(codeDirection === 38 || codeDirection === "up") {
 
 
 			for (var i = 0; i < grid.length - 1; i++) {
@@ -197,9 +237,9 @@ function merge (grid, code) {
 				}
 			}
 
-		newTile(grid, code);
+		newTile(grid, codeDirection);
 		
-	} else if(code === 40) {
+	} else if(codeDirection === 40 || codeDirection === "down") {
 
 		for (var i = grid.length-1; i >= 1; i--) {
 				for (var j = 0; j <= grid.length-1; j++) {
@@ -230,11 +270,11 @@ function merge (grid, code) {
 					}
 				}
 			}
-			newTile(grid, code);
+			newTile(grid, codeDirection);
 	}
 }
 
-	function newTile(merged_grid, code) {
+	function newTile(merged_grid, codeDirection) {
 		var newTileGenerated = false;
 		var x;
 		var y;
@@ -255,25 +295,25 @@ function merge (grid, code) {
 		// until a new tile with a zero value has been selected keep genereating new tiles
 		while (newTileGenerated === false) {
 
-			if (code === 37) {
+			if (codeDirection === 37 || codeDirection === "left") {
 				x = rand(0,3)
 				y = rand(2,3)
 				tileValue = merged_grid[x][y];
 				tileCheck(tileValue, x, y);
 
-			} else if (code === 39) {
+			} else if (codeDirection === 39 || codeDirection === "right") {
 				x = rand(0,3)
 				y = rand(0,1)
 				tileValue = merged_grid[x][y];
 				tileCheck(tileValue, x, y);
 
-			} else if (code === 38) {
+			} else if (codeDirection === 38 || codeDirection === "up") {
 				x = rand(2,3)
 				y = rand(0,3)
 				tileValue = merged_grid[x][y];
 				tileCheck(tileValue, x, y);
 
-			} else if (code === 40) {
+			} else if (codeDirection === 40 || codeDirection === "down") {
 				x = rand(0,1)
 				y = rand(0,3)
 				tileValue = merged_grid[x][y];
